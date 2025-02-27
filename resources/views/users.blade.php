@@ -3,33 +3,33 @@
 
 <div class="container mt-4">
     <div class="offset-md-2 col-md-8">
-       @if (isset($task))
+       @if (isset($user))
 
   <div class="card">
         <div class="card-header">
-           تحديث المهمة
+           تحديث اسم المستخدم
         </div>
         <div class="card-body">
             <!-- New Task Form -->
-            <form action="{{ route('tasks.update')}}" method="POST">
+            <form action="{{ route('users.update')}}" method="POST">
                 @csrf
-                <input type="hidden" name="id" value="{{ $task->id }}">
+                <input type="hidden" name="id" value="{{ $user->id }}">
                 <!-- Task Name -->
                 <div class="mb-3">
-                    <label for="task-name" class="form-label">المهمة</label>
-                    <input type="text" name="name" id="task-name" class="form-control" value="{{ $task->name }}">
+                    <label for="task-name" class="form-label">اسم المستخدم</label>
+                    <input type="text" name="name" id="task-name" class="form-control" value="{{ $user->name }}">
                 </div>
 
                 <!-- Add Task Button -->
                 <div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-plus me-2"></i>تحديث المهمة
+                        <i class="fa fa-plus me-2"></i>تحديث اسم المستخدم
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
+     
        @else
        <div class="card">
         <div class="card-header">
@@ -37,18 +37,18 @@
         </div>
         <div class="card-body">
             <!-- New Task Form -->
-            <form action="{{ route('tasks.create') }}" method="POST">
+            <form action="{{ route('users.create') }}" method="POST">
                 @csrf
                 <!-- Task Name -->
                 <div class="mb-3">
-                    <label for="task-name" class="form-label">المهمة</label>
+                    <label for="task-name" class="form-label">اسم المستخدم</label>
                     <input type="text" name="name" id="task-name" class="form-control" value="">
                 </div>
 
                 <!-- Add Task Button -->
                 <div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-plus me-2"></i>  إضافة مهمة
+                        <i class="fa fa-plus me-2"></i>  إضافة مستخدم جديد
                     </button>
                 </div>
             </form>
@@ -59,38 +59,38 @@
         <!-- Current Tasks -->
         <div class="card mt-4">
             <div class="card-header">
-                المهام الحالية
+                أسماء المستخدمين الحالية الحالية
             </div>
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>المهمة</th>
+                            <th>اسم المستخدم</th>
                             <th>العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
-                       @foreach ( $tasks as $task )
+                       @foreach ( $users as $user )
                        <tr>
-                        <td> {{ $task->name }} </td>
+                        <td> {{ $user->name }} </td>
                         <td>
-                            <form action="{{ route('tasks.destroy' , $task->id) }}" method="POST" class="d-inline">
-
+                            <form action="{{ route('users.destroy' , $user->id) }}" method="POST" class="d-inline">
+                              
                                 @csrf
                                 <button type="submit" class="btn btn-danger">
-                                    <i class="fa fa-trash me-2"></i> حذف
+                                    <i class="fa fa-trash me-2"></i> حذف 
                                 </button>
                             </form>
-                            <form action="{{ route('tasks.edit' , $task->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('users.edit' , $user->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-info">
-                                    <i class="fa fa-info me-2"></i> تعديل
+                                    <i class="fa fa-info me-2"></i> تعديل  
                                 </button>
                             </form>
                         </td>
                     </tr>
                        @endforeach
-
+                     
                     </tbody>
                 </table>
             </div>

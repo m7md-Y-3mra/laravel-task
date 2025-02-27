@@ -1,36 +1,53 @@
 <?php
 
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-  return view('welcome');
+    return view('welcome');
 });
 
-Route::get('tasks', function () {
-  $tasks = DB::table('tasks')->get();
-  return view('tasks', compact('tasks'));
-});
+Route::group(
+    [
+        'prefix' => 'tasks',
+    ],
+    function () {
+        Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
 
-Route::post('create', function () {
-  $name = $_POST['name'];
-  DB::table('tasks')->insert(['name' => $name]);
-  return redirect()->back();
-});
+        Route::post('create', [TaskController::class, 'create'])->name('tasks.create');
 
-Route::post('delete/{id}' , function($id){
-    DB::table('tasks')->where('id' , $id)->delete();
-    return redirect()->back();
-});
 
-Route::post('edit/{id}' , function ($id){
-    $task = DB::table('tasks')->where('id' , $id)->first();
-    $tasks = DB::table('tasks')->get();
-    return view('tasks' , compact('task' , 'tasks'));
-});
+        Route::post('delete/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 
-Route::post('update', function () {
-    $id = $_POST['id'];
-    DB::table('tasks')->where('id', $id)->update(['name' => $_POST['name'] ]);
-    return redirect('tasks');
+        Route::post('edit/{id}', [TaskController::class, 'edit'])->name('tasks.edit');
+
+        Route::post('update', [TaskController::class, 'update'])->name('tasks.update');
+    }
+);
+
+
+Route::group(
+    [
+        'prefix' => 'users',
+    ],
+    function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
+
+        Route::post('create', [UserController::class, 'create'])->name('users.create');
+
+
+        Route::post('delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        Route::post('edit/{id}', [UserController::class, 'edit'])->name('users.edit');
+
+        Route::post('update', [UserController::class, 'update'])->name('users.update');
+    }
+);
+
+
+Route::get('app', function () {
+    return view('layouts.app');
 });
